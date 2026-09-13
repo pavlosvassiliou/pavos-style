@@ -19,9 +19,7 @@
 
 ## Dirty — unavailable until wash day
 
-**Home from Bournemouth, 2 Sep 2026. In the basket until Thursday 3 Sep:**
-
-#5 · #8 · #10 · #38 · #43 · #47 · #49 · #66 · #69 · #85 · #95 · #97 · #102 · #106 · #117
+*(none — the Bournemouth return list cleared on the Thursday 3 Sep wash; cleared here 13 Sep 2026)*
 
 ## Travel
 
