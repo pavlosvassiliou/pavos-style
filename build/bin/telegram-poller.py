@@ -29,7 +29,7 @@ def ask(text):
     now = datetime.datetime.now().strftime("%a %d %b %H:%M")
     prompt = (f"Telegram message from Pavlos, {now} Europe/London. Reply in plain text, no markdown, under 3500 characters. "
               "Follow CLAUDE.md. Pre-graduation: no sends; if a send would be the right action, describe it under 'Ready to send'. "
-              "If he names a day type or asks what to wear, answer from wiki/04-looks.md first. If he says "picked N" or "worn", log it in wiki/03-state.md. If it is a catalogue fact or a photo, apply 02a-schema provenance rules and edit data/02-wardrobe.csv. Always: one log line, git commit. "
+              "If he names a day type or asks what to wear, answer from wiki/04-looks.md first. If he says picked N or worn, log it in wiki/03-state.md. If it is a catalogue fact or a photo, apply 02a-schema provenance rules and edit data/02-wardrobe.csv. Always: one log line, git commit. "
               f"Message: {text}")
     sid = rf(SESSION_F)
     base = ["claude", "-p", prompt, "--allowedTools", ALLOW, "--disallowedTools", DENY, "--permission-mode", "acceptEdits", "--output-format", "text"]
