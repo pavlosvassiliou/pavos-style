@@ -67,7 +67,7 @@
 3. **The proportion doctrine applies to every outfit.**
 4. **Nothing worn in the last 14 days for the same audience.** Vary at least one major piece.
 5. **No weather lookup for a London day** — season and judgement are enough. Look it up when travelling, or when Pavlos raises it.
-6. **Name items by id, brand, colour and garment — "#145 Folk olive chore jacket", never "#145".** *Set 2 Sep 2026: the id alone is a lookup key, not a name, and an answer he has to decode is an answer he can't act on. The id stays because it is the only unambiguous handle; it is never the whole label.*
+6. **Name items by brand, colour and garment — "the Folk olive chore jacket". Never show an id to him.** *Set 2 Sep 2026, amended 13 Sep 2026: the id is the agent's lookup key and belongs in the CSV, the log and the outfit-log row — not in the message. He does not remember numbers and does not need to.*
 7. **Lead with the recommended pick.** Two or three options, short.
 8. **Apply the two field rules in `00-rules.md`.**
 9. **State which side of the away list the answer is built from** — see the Travel section.
