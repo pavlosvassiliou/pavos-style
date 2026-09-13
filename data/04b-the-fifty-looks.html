@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Fifty Looks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --bg:#ecefe8; --surface:#f7f8f4; --surface-2:#e3e7dc;
+  --line:#d0d5c6; --line-soft:#dee2d6;
+  --ink:#191c15; --ink-2:#5c6354; --ink-3:#868d7c;
+  --accent:#454a34; --accent-soft:#dfe4d2; --tobacco:#7a5230;
+  --ok:#4d6b3d; --ok-bg:#dde7d3;
+  --warn:#8a5a15; --warn-bg:#f0e3c8;
+  --stop:#8a3f3f; --stop-bg:#f0d8d5;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#14160f; --surface:#1c1f17; --surface-2:#242820;
+    --line:#333828; --line-soft:#282d21;
+    --ink:#e9ece2; --ink-2:#9aa28c; --ink-3:#727a66;
+    --accent:#a8b47c; --accent-soft:#2b3122; --tobacco:#c9945f;
+    --ok:#8fbb73; --ok-bg:#26331d;
+    --warn:#d3a259; --warn-bg:#332a17;
+    --stop:#d08b85; --stop-bg:#33201e;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14160f; --surface:#1c1f17; --surface-2:#242820;
+  --line:#333828; --line-soft:#282d21;
+  --ink:#e9ece2; --ink-2:#9aa28c; --ink-3:#727a66;
+  --accent:#a8b47c; --accent-soft:#2b3122; --tobacco:#c9945f;
+  --ok:#8fbb73; --ok-bg:#26331d;
+  --warn:#d3a259; --warn-bg:#332a17;
+  --stop:#d08b85; --stop-bg:#33201e;
+}
+
+*{box-sizing:border-box}
+img{max-width:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 96px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.mast{padding:56px 0 26px;border-bottom:1px solid var(--line)}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;
+}
+h1{
+  font-family:"Bodoni Moda",Georgia,serif;font-weight:400;
+  font-size:clamp(42px,7.5vw,80px);line-height:.95;letter-spacing:-.01em;
+  margin:0;text-wrap:balance;
+}
+h1 em{font-style:italic;color:var(--accent)}
+.standfirst{margin:16px 0 0;max-width:62ch;color:var(--ink-2);font-size:15.5px}
+
+/* callouts */
+.note{
+  border:1px solid var(--line);border-left:3px solid var(--warn);
+  background:var(--surface);border-radius:3px;padding:14px 16px;margin:22px 0 0;
+}
+.note h3{
+  margin:0 0 6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:"IBM Plex Mono",monospace;color:var(--warn);font-weight:500;
+}
+.note p{margin:0;font-size:14px;color:var(--ink-2);max-width:70ch}
+.note p + p{margin-top:8px}
+.reflegend{white-space:nowrap}
+.reflegend .ref{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;border:1px solid var(--line);border-radius:2px;
+  padding:1px 5px;color:var(--ink-3);
+}
+.reflegend .ref.exact{color:var(--accent);border-color:var(--accent-soft);background:var(--accent-soft)}
+.note.stopband{border-left-color:var(--stop)}
+.note.stopband h3{color:var(--stop)}
+
+/* findings grid */
+h2.sec{
+  font-family:"Bodoni Moda",Georgia,serif;font-weight:400;
+  font-size:30px;margin:52px 0 4px;letter-spacing:-.01em;
+}
+.seclede{margin:0 0 18px;color:var(--ink-2);max-width:66ch;font-size:14.5px}
+.findings{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.finding{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:3px;padding:15px 16px;
+}
+.finding b{display:block;font-size:14.5px;margin-bottom:5px}
+.finding p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.finding .num{
+  font-family:"IBM Plex Mono",monospace;font-size:22px;color:var(--accent);
+  display:block;line-height:1.1;margin-bottom:6px;font-variant-numeric:tabular-nums;
+}
+
+/* toolbar */
+.toolbar{
+  position:sticky;top:0;z-index:20;background:var(--bg);
+  padding:14px 0 12px;border-bottom:1px solid var(--line);margin-top:44px;
+}
+.facet{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.facet-label{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin-right:4px;
+}
+.chip{
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-2);
+  border-radius:100px;padding:5px 13px;font-size:13px;cursor:pointer;
+  font-family:inherit;line-height:1.4;white-space:nowrap;
+}
+.chip:hover{border-color:var(--ink-3);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:500}
+.chip .n{font-family:"IBM Plex Mono",monospace;font-size:10.5px;opacity:.62;margin-left:5px}
+.progressline{
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding:12px 2px 0;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+}
+
+/* look cards */
+.looks{
+  display:grid;gap:16px;margin-top:22px;
+  grid-template-columns:repeat(auto-fill,minmax(330px,1fr));
+}
+.look{
+  background:var(--surface);border:1px solid var(--line);border-radius:4px;
+  padding:18px 18px 14px;display:flex;flex-direction:column;gap:12px;
+}
+.look.locked{border-color:var(--ok);box-shadow:inset 3px 0 0 var(--ok)}
+.look-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.look-no{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;
+  color:var(--ink-3);text-transform:uppercase;
+}
+.look-name{
+  font-family:"Bodoni Moda",Georgia,serif;font-size:22px;font-weight:400;
+  line-height:1.12;margin:3px 0 0;text-wrap:balance;
+}
+.star{color:var(--accent);font-size:13px;letter-spacing:.08em;font-family:"IBM Plex Mono",monospace}
+.season{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);background:var(--surface-2);
+  padding:4px 8px;border-radius:2px;white-space:nowrap;flex:none;
+}
+.flatlay{
+  display:flex;gap:2px;align-items:flex-end;flex-wrap:wrap;
+  background:var(--surface-2);border-radius:3px;padding:10px 8px 8px;
+}
+.lay{display:block;line-height:0}
+.lay svg{width:46px;height:46px;display:block}
+.lay svg path,.lay svg rect,.lay svg circle{
+  fill:var(--f);stroke:rgba(128,128,128,.55);stroke-width:1.2;
+  stroke-linejoin:round;vector-effect:non-scaling-stroke;
+}
+.lay svg .notch{fill:var(--surface-2);stroke:rgba(128,128,128,.4)}
+.lay svg path[fill="none"]{stroke:rgba(128,128,128,.5)}
+.vsteps{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.22em;
+  color:var(--ink-3);margin-top:-4px;display:flex;gap:9px;align-items:baseline;flex-wrap:wrap;
+}
+.vsteps em{font-style:normal;letter-spacing:.06em;font-size:10.5px}
+.vsteps.good em{color:var(--ok)}
+.vsteps.tonal em{color:var(--ink-3)}
+.vsteps.bad em{color:var(--stop)}
+ul.items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+ul.items li{display:flex;gap:9px;align-items:flex-start;font-size:14px;line-height:1.35}
+.sw{
+  width:15px;height:15px;border-radius:2px;flex:none;margin-top:2px;
+  border:1px solid rgba(128,128,128,.4);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);
+}
+.iid{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3);flex:none}
+.iname b{font-weight:600}
+.iname span{color:var(--ink-2)}
+.iname em{font-style:normal;color:var(--ink-3);font-size:12.5px;display:block;margin-top:1px}
+a.ref{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;text-decoration:none;white-space:nowrap;
+  border:1px solid var(--line);border-radius:2px;padding:1px 5px;
+  color:var(--ink-3);vertical-align:1px;
+}
+a.ref:hover{border-color:var(--accent);color:var(--accent)}
+a.ref.exact{color:var(--accent);border-color:var(--accent-soft);background:var(--accent-soft)}
+a.ref.exact:hover{background:transparent}
+.why{
+  font-size:13.5px;color:var(--ink-2);border-top:1px solid var(--line-soft);
+  padding-top:11px;margin:0;
+}
+.why b{color:var(--ink)}
+.gate{
+  display:flex;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line-soft);
+  padding-top:11px;margin-top:auto;
+}
+.gate label{
+  display:flex;align-items:center;gap:7px;cursor:pointer;
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.gate input{accent-color:var(--accent);width:15px;height:15px;cursor:pointer}
+.gate label:has(input:checked){color:var(--ok)}
+.flagline{
+  font-size:12.5px;color:var(--stop);background:var(--stop-bg);
+  border-radius:2px;padding:8px 10px;margin:0;
+}
+footer{
+  margin-top:52px;padding-top:20px;border-top:1px solid var(--line);
+  color:var(--ink-3);font-size:12.5px;
+}
+footer code{font-family:"IBM Plex Mono",monospace;color:var(--ink-2)}
+@media(max-width:640px){header.mast{padding:36px 0 20px}.looks{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="eyebrow">Regenerated 24 Aug 2026 · against 144 records</p>
+  <h1>The <em>Fifty</em> Looks</h1>
+  <p class="standfirst">Ten looks each for client day, dinner, casual day, off duty and holiday — built from what is actually in the wardrobe today, under the full constraint set. Tick both gates on a look and it locks.</p>
+
+  <div class="note">
+    <h3>Why this supersedes the 17 August set</h3>
+    <p>Seven items have been added or activated since the last generation, and three of them change what is buildable rather than merely adding options: <b>#171</b> and <b>#173</b> give the wardrobe roll necks for the first time, <b>#106</b> gives it a warm base layer, and <b>#129</b> makes every brown-shoe outfit legal. The previous set could not contain any of these looks.</p>
+    <p>The earlier <code>style-50-looks</code> artifact is not in the gallery, so this was regenerated from the documents rather than diffed against it.</p>
+  </div>
+
+  <div class="note" style="border-left-color:var(--accent)">
+    <h3 style="color:var(--accent)">About the flat-lays</h3>
+    <p>These are <b>schematics, not photographs</b> — each garment is drawn as its type and filled with the hex value recorded for it in <code>03-wardrobe.csv</code>. They are here to show <b>value contrast</b>, which is the rule that outranks colour: read the L / M / D strip under each one. <b>L + D</b> passes. All-M fails.</p>
+    <p>Colours are only as accurate as the CSV, and several were re-derived by eye during the 22 August sweep rather than measured. Treat the shapes as diagrams and the hexes as close-but-not-exact.</p>
+    <p><b>Product links.</b> Where a garment could be found online, the item line carries a link. <span class="reflegend"><span class="ref exact">see it</span> is the actual product</span>; <span class="reflegend"><span class="ref">closest</span> is the nearest current equivalent from the same maker</span>, because the original is discontinued or an older season. <b>20 of the 79 items in this set are linked.</b> The rest are unlabelled (#110, the ties, #163), long discontinued, or too generic to identify with confidence — and a wrong link is worse than none.</p>
+  </div>
+</header>
+
+<h2 class="sec">What the generator hit</h2>
+<p class="seclede">Four constraints bound the output. These are findings about the wardrobe, not about the looks — each one is a place where the set is thinner than it looks.</p>
+
+<div class="findings" id="findings"></div>
+
+<div class="note stopband" style="margin-top:16px">
+  <h3>Black tie cannot currently be dressed</h3>
+  <p>Three dinner jackets are owned — <b>#147</b>, <b>#148</b> and <b>#23</b> — and <b>zero black dress trousers</b>. The trouser bench is navy suit, grey suit, chinos, jeans and tracksuit. Look DN8 is therefore listed as incomplete rather than dropped, because the gap is the point.</p>
+  <p>The self-tie bow tie (#131, Tier 0 of the buy plan) is also still unbought. Black tie needs two purchases, not one, and neither is expensive.</p>
+</div>
+
+<div class="toolbar">
+  <div class="facet" id="facets"></div>
+  <div class="progressline">
+    <span id="shown">—</span>
+    <span id="locked">—</span>
+  </div>
+</div>
+
+<div class="looks" id="looks"></div>
+
+<footer>
+  Generated from <code>03-wardrobe.csv</code> (144 records) under <code>01-profile.md</code> §C proportion doctrine, <code>02-colour-analysis.md</code> value-contrast rule, and the tuck/sleeve/mode rules in <code>04-style-direction.md</code>. Ring-fences from <code>06-outfit-log.md</code>. Ticks are stored in this browser only.
+</footer>
+
+</div>
+
+<script>
+const I = {
+  4:["Casual shirt","Officine Générale","#b9c9d9"],5:["Casual shirt","Officine Générale","#454a34"],
+  6:["Casual shirt","Orlebar Brown","#b9c9d9"],7:["Oxford shirt","Officine Générale","#b9c9d9"],
+  8:["Linen shirt","8 by YOOX","#f7f5f0"],9:["Camp collar, crochet","All Saints","#5e6444"],
+  10:["Paisley overshirt","All Saints","#16171a"],11:["Suit trousers","Adam Waite","#1e2a44"],
+  12:["Suit blazer","Adam Waite","#1e2a44"],14:["Chelsea boots","Celine","#16171a"],
+  15:["Espadrilles","Manebi","#1e2a44"],20:["Sunglasses","Jimmy Fairly","#5a4030"],
+  21:["Cord blazer","Adam Waite","#454a34"],23:["Velvet blazer","Etro","#3d2b40"],
+  25:["Bomber jacket","Ted Baker","#1e2a44"],31:["Denim shirt","ARKET","#35506e"],
+  33:["T-shirt","American Vintage","#454a34"],36:["Wide chinos","Weekday","#a97c4e"],
+  37:["Zip hoodie","American Vintage","#a4552e"],38:["Jeans","All Saints","#232227"],
+  44:["Jeans","All Saints","#cfc4b0"],46:["Casual shorts","Orlebar Brown","#e6d9bf"],
+  47:["Denim shorts","Love Brand & Co","#a97c4e"],49:["Chinos","Frame","#c9b18c"],
+  50:["Jeans","7 For All Mankind","#16171a"],54:["Fine knit sweater","All Saints","#2a2a2c"],
+  55:["Hoodie","Mr. P","#2b3d57"],57:["Hoodie","J-Crew","#8f8f8d"],
+  59:["Sweatshirt","ARKET","#1e2a44"],60:["Sweatshirt","Maison Kitsuné","#9a9a98"],
+  61:["Sweatshirt","ARKET","#5e6444"],62:["Shawl cardigan","Scotch & Soda","#2b3d57"],
+  63:["Waffle jumper","All Saints","#e6d9bf"],66:["Relaxed tee","ARKET","#f7f5f0"],
+  67:["Relaxed tee","ARKET","#f7f5f0"],69:["Linen shorts","ARKET","#e6d9bf"],
+  70:["Clean 90 trainers","Axel Arigato","#f7f5f0"],71:["Flip-flops","Havaianas","#16171a"],
+  72:["Linen shirt","Orlebar Brown","#f7f5f0"],75:["Oversize jumper","ARKET","#e6d9bf"],
+  78:["Tracksuit bottoms","Mr. P","#2b3d57"],80:["Tracksuit bottoms","Diesel","#c8c3b8"],
+  81:["Suit blazer","The Kooples","#4e5157"],82:["Suit trousers","The Kooples","#4e5157"],
+  83:["Linen jacket","Sandro","#e6d9bf"],84:["Linen trousers","Sandro","#e6d9bf"],
+  85:["Linen overshirt","ARKET","#454a34"],86:["Corduroy shirt","Rag & Bone","#3a3d42"],
+  87:["Work shirt","Officine Générale","#f7f5f0"],90:["Casual shirt","Officine Générale","#f7f5f0"],
+  91:["Work shirt","Adam Waite","#f7f5f0"],92:["Chambray shirt","Officine Générale","#a8c0d8"],
+  96:["T-shirt","ARKET","#2b3d57"],97:["T-shirt","ARKET","#16171a"],
+  100:["Polo","ARKET","#2b3d57"],101:["Ribbed tank","ARKET","#f7f5f0"],
+  102:["Relaxed tee","ARKET","#f7f5f0"],103:["Relaxed tee","ARKET","#16171a"],
+  104:["Relaxed tee","ARKET","#16171a"],105:["Relaxed tee","ARKET","#f7f5f0"],
+  106:["Cream tee","ARKET","#e6d9bf"],108:["Suede boots","Gianvito Rossi","#5a4030"],
+  109:["Penny loafers","G.H. Bass","#5a4030"],110:["Formal lace-ups","—","#16171a"],
+  117:["Fine knit sweater","Nudie Jeans","#e6d9bf"],127:["Slim belt","The Kooples","#16171a"],
+  129:["Leather belt","Charles Tyrwhitt","#4a3226"],138:["Tie","—","#16171a"],
+  145:["Chore jacket","Folk","#5e6444"],146:["Suede bomber","Sandro","#1e2a44"],
+  147:["Dinner jacket","All Saints","#16171a"],148:["Dinner jacket","The Kooples","#16171a"],
+  149:["Leather bomber","All Saints","#7a5230"],150:["Unstructured blazer","Alex Mill","#1e2a44"],
+  151:["Leather jacket","All Saints","#33343a"],154:["Aviator jacket","Sandro","#5a4030"],
+  160:["Silver chain","Miansai","#c9c9cb"],169:["Chinos","Frame","#8a8c5f"],
+  171:["Roll neck","Bernard Weatherill","#26314c"],172:["Wool jersey","Richard James","#1f3a2d"],
+  173:["Roll neck","Gianni Feraud","#3a3d42"]
+};
+
+// garment type per item — drives the flat-lay silhouette
+const T={4:"SH",5:"SH",6:"SH",7:"SH",8:"SH",9:"SH",10:"JK",11:"TR",12:"JK",14:"BT",15:"SO",
+20:"AC",21:"JK",23:"JK",25:"JK",31:"SH",33:"TE",36:"TR",37:"JK",38:"TR",44:"TR",46:"SR",
+47:"SR",49:"TR",50:"TR",54:"KN",55:"JK",57:"JK",59:"KN",60:"KN",61:"KN",62:"JK",63:"KN",
+66:"TE",67:"TE",69:"SR",70:"SO",71:"FL",72:"SH",75:"KN",78:"TR",80:"TR",81:"JK",82:"TR",
+83:"JK",84:"TR",85:"JK",86:"SH",87:"SH",90:"SH",91:"SH",92:"SH",96:"TE",97:"TE",100:"PO",
+101:"TK",102:"TE",103:"TE",104:"TE",105:"TE",106:"TE",108:"BT",109:"SO",110:"SO",117:"KN",
+127:"BE",129:"BE",138:"AC",145:"JK",146:"JK",147:"JK",148:"JK",149:"JK",150:"JK",151:"JK",
+154:"JK",160:"AC",169:"TR",171:"RN",172:"KN",173:"RN"};
+
+const ORDER={TK:1,TE:1,PO:1,SH:1,KN:1,RN:1,JK:2,TR:3,SR:3,SO:4,BT:4,FL:4,BE:5,AC:6};
+
+// [url, exact?] — a product page showing the garment. "exact" = this is the item;
+// otherwise it is the closest current equivalent from the same maker.
+const REF={
+ 14:["https://www.mrporter.com/en-us/mens/product/celine/shoes/chelsea-boots/leather-chelsea-boots/1647597341781152",0],
+ 15:["https://manebi.com/products/espadrilles-la-havana-navy-o75c0",0],
+ 66:["https://www.arket.com/en-gb/product/midweight-t-shirt-white-0527611001/",1],
+ 67:["https://www.arket.com/en-gb/product/midweight-t-shirt-white-0527611001/",1],
+ 70:["https://axelarigato.com/men/footwear/clean-90/clean-90-28102",1],
+ 72:["https://orlebarbrown.com/en-us/products/justin-white-shirts-278739",1],
+ 85:["https://www.arket.com/en-eu/product/cotton-linen-overshirt-dusty-green-1292228001/",0],
+ 102:["https://www.arket.com/en-gb/product/midweight-t-shirt-white-0527611001/",1],
+ 103:["https://www.arket.com/en-ww/product/midweight-t-shirt-black-0527611002/",1],
+ 104:["https://www.arket.com/en-ww/product/midweight-t-shirt-black-0527611002/",1],
+ 105:["https://www.arket.com/en-gb/product/midweight-t-shirt-white-0527611001/",1],
+ 106:["https://www.arket.com/en_gbp/men/t-shirt/product.heavyweight-t-shirt-white.0527611008.html",1],
+ 108:["https://savannahs.com/products/levy-dark-brown-suede-ankle-boots-gr15111s",0],
+ 109:["https://www.ghbass-eu.com/products/weejuns-larson-penny-loafers-dark-brown-white-leather",1],
+ 129:["https://www.charlestyrwhitt.com/uk/leather-formal-belt---chocolate/ACB0223CHC.html",1],
+ 145:["https://www.folkclothing.com/products/assembly-jacket-military-green",1],
+ 146:["https://us.sandro-paris.com/en/mens/clothing/jackets/",0],
+ 150:["https://www.alexmill.com/products/mill-blazer-in-vintage-twill-in-dark-navy-1",0],
+ 171:["https://malfordoflondon.com/products/bernard-weatherill-plain-roll-neck-melange-tweed-40540-011-navy-flec",1],
+ 173:["https://www.asos.com/gianni-feraud/gianni-feraud-roll-neck-jumper-in-grey/prd/20690123",0]
+};
+
+const SHAPE={
+ TE:'<path d="M22 8 L30 5 L34 5 L42 8 L56 16 L50 27 L45 23 L45 59 L19 59 L19 23 L14 27 L8 16 Z"/>',
+ TK:'<path d="M25 8 L29 5 L35 5 L39 8 L41 59 L23 59 Z"/>',
+ PO:'<path d="M22 8 L30 5 L34 5 L42 8 L56 16 L50 27 L45 23 L45 59 L19 59 L19 23 L14 27 L8 16 Z"/><path d="M32 8 L32 22" stroke-width="2" fill="none"/>',
+ SH:'<path d="M22 8 L32 14 L42 8 L54 14 L58 44 L48 47 L45 30 L45 59 L19 59 L19 30 L16 47 L6 44 L10 14 Z"/><path d="M32 14 L32 59" stroke-width="1.6" fill="none"/>',
+ KN:'<path d="M22 8 L32 13 L42 8 L56 15 L58 45 L47 48 L45 32 L45 59 L19 59 L19 32 L17 48 L6 45 L8 15 Z"/>',
+ RN:'<path d="M22 11 L32 16 L42 11 L56 18 L58 46 L47 49 L45 33 L45 59 L19 59 L19 33 L17 49 L6 46 L8 18 Z"/><rect x="25" y="3" width="14" height="10" rx="3"/>',
+ JK:'<path d="M21 8 L32 16 L43 8 L56 15 L58 47 L48 49 L46 33 L46 59 L18 59 L18 33 L16 49 L6 47 L8 15 Z"/><path d="M32 16 L25 59 L39 59 Z" class="notch"/>',
+ TR:'<path d="M18 6 L46 6 L45 20 L42 59 L34 59 L32 30 L30 59 L22 59 L19 20 Z"/>',
+ SR:'<path d="M18 10 L46 10 L45 22 L43 40 L34 40 L32 28 L30 40 L21 40 L19 22 Z"/>',
+ SO:'<path d="M8 44 C8 37 15 33 23 33 L34 33 C44 33 52 39 56 44 L56 50 L11 50 C9 50 8 48 8 44 Z"/>',
+ BT:'<path d="M20 14 L38 14 L38 37 C46 39 54 43 56 47 L56 53 L18 53 L18 14 Z"/>',
+ FL:'<path d="M11 42 C11 36 20 33 32 33 C44 33 53 36 53 42 C53 48 44 51 32 51 C20 51 11 48 11 42 Z"/><path d="M32 33 L24 43 M32 33 L40 43" stroke-width="2.4" fill="none"/>',
+ BE:'<path d="M4 26 L50 26 L50 38 L4 38 Z"/><rect x="49" y="23" width="11" height="18" rx="2"/>',
+ AC:'<circle cx="32" cy="32" r="12"/>'
+};
+
+function lum(hex){
+  const h=hex.replace("#",""),r=parseInt(h.slice(0,2),16)/255,
+    g=parseInt(h.slice(2,4),16)/255,b=parseInt(h.slice(4,6),16)/255;
+  const f=c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4);
+  return .2126*f(r)+.7152*f(g)+.0722*f(b);
+}
+function vstep(hex){const L=lum(hex);return L>.55?"L":(L<.14?"D":"M");}
+
+function flatlay(ids){
+  const parts = ids.map(id=>({id,t:T[id],hex:(I[id]||[])[2]}))
+    .filter(p=>p.t&&p.hex)
+    .sort((a,b)=>(ORDER[a.t]||9)-(ORDER[b.t]||9));
+  const svgs = parts.map(p=>
+    `<span class="lay" title="#${p.id}">
+      <svg viewBox="0 0 64 64" aria-hidden="true" style="--f:${p.hex}">${SHAPE[p.t]}</svg>
+    </span>`).join("");
+  const steps = parts.filter(p=>ORDER[p.t]<=4).map(p=>vstep(p.hex));
+  const ok = steps.includes("L") && steps.includes("D");
+  const allMid = steps.length>0 && steps.every(s=>s==="M");
+  return `<div class="flatlay">${svgs}</div>
+    <div class="vsteps ${ok?"good":(allMid?"bad":"tonal")}">
+      ${steps.join(" ")} <em>${ok?"light + dark":(allMid?"mid-tone only — breaks the rule":"tonal")}</em>
+    </div>`;
+}
+
+// [mode, name, star, season, [[id,detail]...], why, flag]
+const LOOKS = [
+["Client","The warm default",1,"Autumn/Winter",[[171,"roll neck, worn alone under the blazer"],[49,"no break, plain hem"],[150,""],[109,"no visible sock"],[129,""]],"Navy on navy with a beige break at the waist — <b>tonal above, light below</b>. The roll neck removes the collar problem entirely and the brown belt finally matches the loafers.",""],
+["Client","Olive at the collar",1,"All year",[[5,"tucked"],[49,""],[150,""],[70,""],[129,""]],"The discipline look. Olive is his <b>strongest colour</b> and it sits directly under the face — the one thing the client-day board says he skips.",""],
+["Client","Charcoal and light olive",0,"All year",[[173,"slim jersey, no bulk under the blazer"],[169,""],[150,""],[109,""],[129,""]],"Charcoal is the <b>daytime dark</b>. The thin jersey is the only roll neck that goes under a blazer without stacking at the shoulder.",""],
+["Client","Sand on sand",0,"Summer",[[106,"untucked, hem at the top of the fly"],[84,""],[83,""],[70,""],[20,""]],"Head-to-toe warm — <b>only viable in summer</b>, when the tan narrows the face-to-hair contrast. The cream tee is what makes it warm rather than stark.",""],
+["Client","White shirt, navy suede",0,"Spring/Autumn",[[90,"tucked"],[169,""],[146,""],[109,""],[129,""]],"White above, light olive below, navy in the middle. The suede bomber is the <b>third jacket</b> and the only one that reads spring or autumn.",""],
+["Client","Cream knit, olive cord",1,"Autumn/Winter",[[117,"fitted cut — no bulk"],[82,""],[21,"made to measure, length already right"],[14,""]],"Light top, dark everything else, at the widest value step available. The cord blazer is <b>cut to him</b> and in his best colour — it should be worked harder than it is. <b>Sock compromise:</b> charcoal trousers want charcoal socks and only black exist.",""],
+["Client","Bottle green, collar off",1,"Autumn/Winter",[[172,""],[49,""],[154,"shearling collar REMOVED"],[108,""],[129,""]],"Free win #3 from the buy plan, finally dressed: <b>collar off, the aviator becomes a clean brown leather bomber</b> that holds a client day. Green reads as the dark half here.",""],
+["Client","Olive tee under navy",0,"All year",[[33,"untucked"],[82,""],[150,""],[14,""]],"Warm at the collar without a shirt. Tees are untucked on client days per the tuck rule; check the hem sits <b>mid-fly, not over the seat</b>.",""],
+["Client","White linen, light olive",0,"Summer",[[8,"tucked, sleeves down for clients"],[169,""],[83,""],[70,""]],"Optic white works on him <em>because</em> of the high value contrast — most olive-skinned men cannot wear it. Best in summer against a tan.",""],
+["Client","Cream waffle, no jacket",0,"Autumn/Winter",[[63,"the knit is the top layer"],[82,""],[109,""],[129,""]],"Deliberately jacketless — the waffle is too bulky to layer under anything. Light top, dark bottom holds the rule without one.",""],
+
+["Dinner","Charcoal, head to toe",1,"All year",[[173,"tucked"],[82,""],[81,""],[110,"polished"]],"Full tonal charcoal — the <b>longest available vertical line</b>, which outranks colour in the doctrine. Charcoal rather than black at the collar, per the colour analysis.",""],
+["Dinner","Black melange and grey",0,"Autumn/Winter",[[54,"tucked"],[82,""],[81,""],[14,""],[127,""]],"Black at the face is allowed for evening <b>only in a textured knit</b> — never flat cotton. This is the one that qualifies.",""],
+["Dinner","The navy suit, open neck",0,"All year",[[87,"tucked, no tie"],[11,""],[12,""],[110,""],[127,""]],"Made to measure and it fits — the least-worked garment in the wardrobe. Open neck keeps it a dinner rather than a meeting.",""],
+["Dinner","The board dinner",0,"All year",[[91,"tucked"],[82,""],[81,""],[138,"four-in-hand, tip at the buckle"],[110,""],[127,""]],"The one tied look in ten, matching the board — ties appear in <b>only 6 of 31 dinner pins</b>. Tie width 6.5–7cm, no wider.",""],
+["Dinner","Navy on navy",1,"Autumn/Winter",[[171,"tucked"],[11,""],[12,""],[14,""]],"Tonal navy from collar to ankle. The fleck supplies texture so it doesn't read as a suit worn wrong.",""],
+["Dinner","Cord shirt, black denim",0,"Autumn/Winter",[[86,"tucked"],[38,""],[81,""],[14,""],[127,""]],"The relaxed end of the mode. Denim appears in dinner pins rarely — faded black is the pair that passes.",""],
+["Dinner","The velvet",1,"Autumn/Winter",[[97,"tucked"],[50,""],[23,""],[14,""],[160,"worn visible"]],"Field-tested. Velvet is texture, so black sits at the collar legitimately; the chain does the vertical work in an open neck.",""],
+["Dinner","Black tie — INCOMPLETE",0,"All year",[[147,""],[87,"tucked"],[110,"takes a high polish"]],"Everything above the waist is owned and correct. <b>Nothing below it is.</b>","Missing: black dress trousers, and a self-tie bow tie (#131). Not buildable today."],
+["Dinner","The cut-off collar",0,"All year",[[148,"leather lapel, collar cut away"],[97,""],[50,""],[14,""]],"Reads fashion rather than black tie — which is what it is. No tie, because the collar cannot take one.",""],
+["Dinner","One colour note",0,"Autumn/Winter",[[172,"tucked"],[82,""],[81,""],[14,""]],"The dinner board contains no olive, sage, cream or camel — it is a black board. Bottle green is the <b>one colour</b> deep enough to enter it.",""],
+
+["Casual","Olive, black, olive",1,"Spring/Autumn",[[33,"untucked"],[38,""],[145,""],[70,""]],"The chore jacket is the most useful everyday layer owned and olive is the best colour family — this is the wardrobe at its most natural.",""],
+["Casual","Cream and tobacco",1,"Spring/Autumn",[[106,"untucked"],[38,""],[149,""],[70,""]],"The warm base layer doing the job it was bought for. Cream under tobacco leather is <b>warm on warm</b> with a black break below.",""],
+["Casual","Overshirt, open",0,"Summer",[[66,"220gsm relaxed — the preferred cut"],[44,""],[85,"open, sleeves rolled"],[70,""]],"Holiday formula borrowed for a London summer: open overshirt, white base, lighter bottom.",""],
+["Casual","Denim and stone",0,"Spring/Summer",[[31,"untucked, sleeves rolled"],[44,""],[70,""]],"Two-garment mode. Dark denim above, stone below — the value step does all the work without a third piece.",""],
+["Casual","Dark, top to bottom",0,"Autumn/Winter",[[173,""],[38,""],[151,"built-in liner, needs little underneath"],[14,""]],"Full tonal dark. The leather jacket carries its own waistcoat, so a thin roll neck is <b>all that fits underneath</b>.",""],
+["Casual","White tee, light olive",0,"Spring/Autumn",[[102,"untucked"],[169,""],[25,""],[70,""]],"Light on light with navy on top — the jacket is the dark half. Works only because the bomber closes.",""],
+["Casual","Roll neck, stone",0,"Autumn/Winter",[[171,"worn alone"],[44,""],[109,""],[129,""]],"No jacket, no shirt, no fuss. Navy above, stone below, brown at the foot — <b>three warm-neutral steps</b>.",""],
+["Casual","Chambray and chore",0,"Spring/Autumn",[[92,"untucked, sleeves rolled"],[38,""],[145,""],[70,""]],"Pale chambray is the light half against black denim. Sleeves rolled — the free rule, 10 out of 10 on the board.",""],
+["Casual","Rust in autumn",0,"Autumn",[[103,"untucked"],[49,""],[37,""],[70,""]],"Rust moves from <em>strong</em> to <em>excellent</em> against a late-summer tan. Wrong garment, right colour — so it stays casual.",""],
+["Casual","Green and stone",0,"Autumn/Winter",[[172,""],[44,""],[109,""],[129,""]],"The second outing for bottle green, dressed down. Wear this one before deciding whether the colour earns a STRONG grade.",""],
+
+["Off duty","The uniform",1,"Spring/Summer",[[67,""],[36,"loose — casual only"],[70,""]],"Two garments and a shoe. The wide chinos are ring-fenced away from client days and this is where they belong.",""],
+["Off duty","Black on black",0,"All year",[[104,""],[38,""],[70,""]],"Black at the collar is a preference issue, not a prohibition — off duty is exactly where it doesn't matter.",""],
+["Off duty","Oversize cream",0,"Autumn/Winter",[[75,"ring-fenced: home, drinks, weekends"],[38,""],[70,""]],"The oversize cut breaks the silhouette doctrine deliberately. Ring-fenced here and nowhere else.",""],
+["Off duty","Olive sweatshirt",0,"Autumn/Winter",[[105,"base layer"],[61,""],[36,""],[70,""]],"Excellent colour, off-brief garment. Off duty is the mode where the garment stops mattering.",""],
+["Off duty","Home only",0,"Autumn/Winter",[[67,"base layer — the hoodie needs one"],[57,"ring-fenced: casual and home"],[80,"ring-fenced: home and gym"]],"Both pieces fail at the face — mid-grey marl against salt-and-pepper hair. <b>Kept for comfort, never seen.</b>",""],
+["Off duty","Navy and stone",0,"Autumn/Winter",[[102,"base layer"],[59,""],[44,""],[70,""]],"Navy above, stone below. The one off-duty look that would survive being seen in public.",""],
+["Off duty","The fox",0,"Autumn/Winter",[[104,"base layer — the sweatshirt needs one"],[60,"ring-fenced: home and private only"],[78,"ring-fenced: home and gym"]],"Visible logo, kept for sentiment. Recorded so the rotation counts it, not so it gets worn out.",""],
+["Off duty","Summer, minimum",0,"Summer",[[105,""],[47,""],[71,""]],"Tan shorts, white tee, black flip-flops. Nothing to think about.",""],
+["Off duty","Cardigan weekend",0,"Autumn/Winter",[[96,"base layer under the cardigan"],[36,""],[62,"chunky — top layer only"]],"Blue on blue on tan. Bulky gauge, so nothing goes over it.",""],
+["Off duty","Hoodie and black",0,"Autumn/Winter",[[97,"base layer"],[55,""],[38,""],[70,""]],"Colour corrected from charcoal — it is dark blue. Fine off duty, off-brief anywhere else.",""],
+
+["Holiday","White linen, sand",1,"Summer",[[72,"untucked, sleeves rolled"],[84,"no belt"],[109,"barefoot or no-show"],[20,""]],"The holiday formula at full strength: <b>rolled linen, cream bottom, no belt, brown leather</b>. Six of fourteen pins are this outfit.",""],
+["Holiday","Linen and cream shorts",0,"Summer",[[8,"untucked, sleeves rolled"],[46,"no belt"],[71,""]],"Two garments. Belts appear in <b>zero of fourteen</b> holiday pins — leave it off.",""],
+["Holiday","Pale blue, sand",0,"Summer",[[6,"untucked, sleeves rolled"],[84,"no belt"],[109,""]],"Light blue over ivory — three pins of the board are exactly this. Cool above, warm below.",""],
+["Holiday","Cream on beige",1,"Summer",[[106,""],[69,""],[70,""]],"Warm tonal, top to bottom. <b>Only works in summer</b>, and only because the tan carries it.",""],
+["Holiday","Overshirt and tank",1,"Summer",[[85,"open, sleeves rolled"],[101,"size S"],[84,"no belt"],[109,""]],"The open-overshirt-over-tank formula, two pins on the board. Olive over white over sand — his palette exactly.",""],
+["Holiday","Olive and beige",0,"Summer",[[33,""],[69,""],[109,""]],"Two garments and brown leather. Shoes on the holiday board are brown, tan or taupe in <b>six of ten</b> pins.",""],
+["Holiday","Light blue, cream",0,"Summer",[[4,"untucked, sleeves rolled"],[46,"no belt"],[70,""]],"The white-sneaker variant. Three pins run shirt, cream trouser, white low-top.",""],
+["Holiday","Crochet over tank",0,"Summer",[[9,"cannot be buttoned — open layer only"],[101,""],[47,""],[71,""]],"The one garment in the wardrobe that <em>must</em> be worn open. Holiday is the only mode that wants it.",""],
+["Holiday","The paisley, evening",0,"Summer",[[10,"ring-fenced: holiday evenings, open over a tee"],[105,""],[38,""],[109,""]],"His own holiday board has <b>zero prints</b> — which contradicts keeping this. Kept on his call, confined to evenings.",""],
+["Holiday","Tan and white",0,"Summer",[[66,""],[47,""],[15,"navy, treat as the dark note"]],"The espadrilles were flagged off-board as grey; corrected to navy, they earn a place. Lightest possible summer pairing.",""]
+];
+
+const FINDINGS = [
+["5","Client-day bottoms","Only #49, #169, #84, #11 and #82 are register-correct for a client. Ten looks over five bottoms forces repetition — the trousers, not the tops, are the bottleneck."],
+["5","Warm-at-the-collar pieces","#5, #33, #106, #117 and #63. The finding in the buy plan has not shifted: 26 of the garments that sit under his face are still blue or white."],
+["2","Office-register jackets","#150 all season and #83 summer only, with #146 as a spring/autumn third. Every client look above leans on the same two or goes jacketless."],
+["0","Correct socks","Black only. Every charcoal, navy and brown look here breaks the sock rule in 01-profile §E — it is a known compromise, not a recommendation."]
+];
+
+const MODES = ["Client","Dinner","Casual","Off duty","Holiday"];
+const state = {mode:new Set()};
+let ticks = {};
+try{ ticks = JSON.parse(localStorage.getItem("looks50")||"{}"); }catch(e){ ticks = {}; }
+function save(){ try{ localStorage.setItem("looks50",JSON.stringify(ticks)); }catch(e){} }
+
+document.getElementById("findings").innerHTML = FINDINGS.map(f=>
+  `<div class="finding"><span class="num">${f[0]}</span><b>${f[1]}</b><p>${f[2]}</p></div>`).join("");
+
+const facets = document.getElementById("facets");
+facets.innerHTML = `<span class="facet-label">Mode</span>`;
+MODES.forEach(m=>{
+  const b=document.createElement("button");
+  b.type="button"; b.className="chip"; b.setAttribute("aria-pressed","false");
+  b.innerHTML = `${m}<span class="n">${LOOKS.filter(l=>l[0]===m).length}</span>`;
+  b.addEventListener("click",()=>{
+    state.mode.has(m)?state.mode.delete(m):state.mode.add(m);
+    b.setAttribute("aria-pressed",state.mode.has(m)?"true":"false");
+    render();
+  });
+  facets.appendChild(b);
+});
+
+const PREFIX={"Client":"CD","Dinner":"DN","Casual":"CA","Off duty":"OD","Holiday":"HL"};
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+function render(){
+  const counters={};
+  const cards = LOOKS.map((l,idx)=>{
+    counters[l[0]]=(counters[l[0]]||0)+1;
+    return {l, idx, ref:PREFIX[l[0]]+counters[l[0]]};
+  }).filter(o=> !state.mode.size || state.mode.has(o.l[0]));
+
+  document.getElementById("looks").innerHTML = cards.map(({l,idx,ref})=>{
+    const t = ticks[idx]||{};
+    const lockedNow = t.s && t.w;
+    const items = l[4].map(([id,detail])=>{
+      const it = I[id]; if(!it) return "";
+      const r = REF[id];
+      const link = r
+        ? ` <a class="ref${r[1]?" exact":""}" href="${r[0]}" target="_blank" rel="noopener"
+             title="${r[1]?"This item":"Closest current equivalent"}">${r[1]?"see it":"closest"} ↗</a>`
+        : "";
+      return `<li><span class="sw" style="background:${it[1]?it[2]:"#888"}"></span>
+        <span class="iid">#${id}</span>
+        <span class="iname"><b>${esc(it[1])}</b> <span>${esc(it[0])}</span>${link}${detail?`<em>${esc(detail)}</em>`:""}</span></li>`;
+    }).join("");
+    return `<article class="look${lockedNow?" locked":""}">
+      <div class="look-head">
+        <div>
+          <div class="look-no">${ref}${l[2]?' <span class="star">★ recommended</span>':""}</div>
+          <h3 class="look-name">${esc(l[1])}</h3>
+        </div>
+        <span class="season">${esc(l[3])}</span>
+      </div>
+      ${flatlay(l[4].map(x=>x[0]))}
+      <ul class="items">${items}</ul>
+      ${l[6]?`<p class="flagline">${l[6]}</p>`:""}
+      <p class="why">${l[5]}</p>
+      <div class="gate">
+        <label><input type="checkbox" data-i="${idx}" data-k="s"${t.s?" checked":""}> Sense check</label>
+        <label><input type="checkbox" data-i="${idx}" data-k="w"${t.w?" checked":""}> Tried on</label>
+      </div>
+    </article>`;
+  }).join("");
+
+  document.querySelectorAll('.gate input').forEach(cb=>{
+    cb.addEventListener("change",e=>{
+      const i=e.target.dataset.i, k=e.target.dataset.k;
+      ticks[i]=ticks[i]||{}; ticks[i][k]=e.target.checked;
+      save(); render();
+    });
+  });
+
+  document.getElementById("shown").textContent = `${cards.length} of ${LOOKS.length} looks`;
+  const n = Object.values(ticks).filter(t=>t.s&&t.w).length;
+  document.getElementById("locked").textContent = `${n} locked · ${LOOKS.length-n} to go`;
+}
+render();
+</script>
+</body>
+</html>
