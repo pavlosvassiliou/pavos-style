@@ -1,0 +1,14 @@
+[Unit]
+Description=PavOS Style Telegram two-way poller
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=pavlos
+WorkingDirectory=/home/pavlos/pavos-style
+ExecStart=/usr/bin/python3 /home/pavlos/pavos-style/build/bin/telegram-poller.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
