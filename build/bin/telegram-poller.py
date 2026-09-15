@@ -7,7 +7,7 @@ TOKEN, CHAT = env["TELEGRAM_TOKEN"], int(env["TELEGRAM_CHAT_ID"])
 API = f"https://api.telegram.org/bot{TOKEN}/"
 LOGDIR = f"{VAULT}/build/logs"; os.makedirs(LOGDIR, exist_ok=True)
 OFFSET_F, SESSION_F, LOG_F = f"{LOGDIR}/tg.offset", f"{LOGDIR}/tg.session", f"{LOGDIR}/telegram.log"
-ALLOW = ("Read,Glob,Grep,Edit,Write,Bash(git add:*),Bash(git commit:*),Bash(git log:*),Bash(git status:*),Bash(date:*),Bash(ls:*),Bash(cat:*),"
+ALLOW = ("Read,Glob,Grep,Edit,Write,WebSearch,WebFetch,Bash(git add:*),Bash(git commit:*),Bash(git log:*),Bash(git status:*),Bash(date:*),Bash(ls:*),Bash(cat:*),"
  "mcp__claude_ai_Gmail__search_threads,mcp__claude_ai_Gmail__get_thread,mcp__claude_ai_Gmail__get_message,mcp__claude_ai_Gmail__list_labels,"
  "mcp__claude_ai_Google_Calendar__list_calendars,mcp__claude_ai_Google_Calendar__list_events,mcp__claude_ai_Google_Calendar__get_event,mcp__claude_ai_Google_Calendar__create_event,mcp__claude_ai_Google_Calendar__update_event,mcp__claude_ai_Google_Calendar__delete_event,"
  "mcp__claude_ai_Google_Drive__search_files,mcp__claude_ai_Google_Drive__download_file_content,mcp__claude_ai_Google_Drive__get_file_metadata")
