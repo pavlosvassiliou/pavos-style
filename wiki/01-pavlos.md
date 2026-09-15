@@ -8,6 +8,8 @@
 
 **Base:** London. British English, UK retailers, London weather.
 
+**Home area: Notting Hill, W11** — nearest Tube Ladbroke Grove and Notting Hill Gate (Central line). **Every in-person shopping search starts here and ranks by walking distance first**, then the Central line. *The full address is owned by `~/pavos/wiki/operating-manual.md` and is never copied into this vault.*
+
 **Fortnight:** roughly 50/50 — about 4–5 office or client days per fortnight, 4–5 WFH, plus evenings out. **The wardrobe needs depth in smart-casual**, not a large formal or casual wardrobe.
 
 **Role:** senior commercial leader across multiple ventures, regulated and adjacent sectors. Marketing, sales and operations. EU, UK and international markets.
