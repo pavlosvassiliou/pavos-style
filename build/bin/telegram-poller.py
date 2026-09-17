@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """PavOS Telegram two-way (v1.5). One chat only. Read-only MCP; no sends."""
-import json, os, subprocess, time, urllib.parse, urllib.request, uuid, datetime
+import fcntl, json, os, subprocess, time, urllib.parse, urllib.request, uuid, datetime
 HOME = "/home/pavlos"; VAULT = f"{HOME}/pavos-style"
 env = dict(l.strip().split("=", 1) for l in open(f"{HOME}/.pavos-style.env") if "=" in l)
 TOKEN, CHAT = env["TELEGRAM_TOKEN"], int(env["TELEGRAM_CHAT_ID"])
@@ -25,6 +25,16 @@ def send(text):
     text = text.strip() or "(empty reply)"
     for i in range(0, len(text), 3900): api("sendMessage", chat_id=CHAT, text=text[i:i+3900])
 def rf(p, d=""): return open(p).read().strip() if os.path.exists(p) else d
+LOCK = "/home/pavlos/.lock-pavos-style"
+def with_lock(fn):
+    fh = open(LOCK, "w")
+    for _ in range(10):
+        try: fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB); break
+        except BlockingIOError: time.sleep(0.5)
+    else:
+        send("A scheduled run is in progress — I'll answer as soon as it finishes."); fcntl.flock(fh, fcntl.LOCK_EX)
+    try: return fn()
+    finally: fcntl.flock(fh, fcntl.LOCK_UN); fh.close()
 def ask(text):
     now = datetime.datetime.now().strftime("%a %d %b %H:%M")
     prompt = (f"Telegram message from Pavlos, {now} Europe/London. Reply in plain text, no markdown, under 3500 characters. "
@@ -81,6 +91,6 @@ while True:
             send("New session."); continue
         try: api("sendChatAction", chat_id=CHAT, action="typing")
         except Exception: pass
-        try: reply = ask(text)
+        try: reply = with_lock(lambda: ask(text))
         except subprocess.TimeoutExpired: reply = "PavOS: timed out after 10 minutes."
         log("out", reply); send(reply)
