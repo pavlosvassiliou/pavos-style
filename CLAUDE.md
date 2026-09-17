@@ -29,3 +29,6 @@ Lead with the pick. Name items by brand, colour and garment only — no ids in a
 
 ## Links (added 17 Sep)
 Pages are a graph, not a tree. When a fact touches two pages, link them both ways with [[page-name]] (the file name without .md): a person to the item that involves them, an account to the subscription decision about it, a now.md item to the register row it depends on. When you read a page and it links onward, follow the link if it bears on the question. Never add a link for its own sake — only where the next reader would otherwise have to guess.
+
+## Audience rule
+- System state appears ONLY when something is wrong, and only in the morning brief or evening close: "System: something needs a look — <plain words>". Never when all is fine, and NEVER in a chat reply. Chat replies contain no status lines, no sign-offs, no "nothing else to report".
