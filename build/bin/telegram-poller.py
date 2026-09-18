@@ -35,6 +35,15 @@ def with_lock(fn):
         send("A scheduled run is in progress — I'll answer as soon as it finishes."); fcntl.flock(fh, fcntl.LOCK_EX)
     try: return fn()
     finally: fcntl.flock(fh, fcntl.LOCK_UN); fh.close()
+def _tel(r, label):
+    try:
+        d=json.loads(r.stdout); u=d.get("usage",{}) or {}; mu=d.get("modelUsage",{}) or {}
+        model=next(iter(mu)) if mu else d.get("model","?"); p="/home/pavlos/pavos-style/build/logs/telemetry.csv"; new=not os.path.exists(p)
+        with open(p,"a") as o:
+            if new: o.write("time,label,model,duration_ms,input_tokens,output_tokens,cache_read,cache_create,cost_usd,turns,status\n")
+            o.write(",".join(str(x).replace(",",";") for x in [datetime.datetime.now().strftime("%F %T"),label,model,d.get("duration_ms",""),u.get("input_tokens",""),u.get("output_tokens",""),u.get("cache_read_input_tokens",""),u.get("cache_creation_input_tokens",""),d.get("total_cost_usd","") or "",d.get("num_turns",""),"error" if d.get("is_error") else "ok"])+"\n")
+        return d.get("result","") or ""
+    except Exception: return r.stdout
 def ask(text):
     now = datetime.datetime.now().strftime("%a %d %b %H:%M")
     prompt = (f"Telegram message from Pavlos, {now} Europe/London. Reply in plain text, no markdown, under 3500 characters. "
@@ -42,14 +51,14 @@ def ask(text):
               "If he names a day type or asks what to wear, answer from wiki/04-looks.md first. If he says picked N or worn, log it in wiki/03-state.md. If it is a catalogue fact or a photo, apply 02a-schema provenance rules and edit data/02-wardrobe.csv. Always: one log line, git commit. "
               f"Message: {text}")
     sid = rf(SESSION_F)
-    base = ["claude", "-p", prompt, "--allowedTools", ALLOW, "--disallowedTools", DENY, "--permission-mode", "acceptEdits", "--output-format", "text"]
+    base = ["claude", "-p", prompt, "--allowedTools", ALLOW, "--disallowedTools", DENY, "--permission-mode", "acceptEdits", "--output-format", "json"]
     if sid:
         r = subprocess.run(base + ["--resume", sid], cwd=VAULT, env=ENV, capture_output=True, text=True, timeout=600)
-        if r.returncode == 0: return r.stdout
+        if r.returncode == 0: return _tel(r, "chat")
         log("resume-failed", r.stderr)
     sid = str(uuid.uuid4()); open(SESSION_F, "w").write(sid)
     r = subprocess.run(base + ["--session-id", sid], cwd=VAULT, env=ENV, capture_output=True, text=True, timeout=600)
-    return r.stdout if r.returncode == 0 else f"PavOS error (rc={r.returncode}): {r.stderr[-800:]}"
+    return _tel(r, "chat") if r.returncode == 0 else f"PavOS error (rc={r.returncode}): {r.stderr[-800:]}"
 
 offset = int(rf(OFFSET_F, "0") or 0)
 log("start", f"poller up, offset {offset}")
