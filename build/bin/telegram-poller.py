@@ -46,6 +46,10 @@ def _tel(r, label):
         if ctx>400000 and os.path.exists(SESSION_F): os.remove(SESSION_F); log("context reset", f"{ctx} tokens")
         return d.get("result","") or ""
     except Exception: return r.stdout
+HEAVY=("rebuild","audit","all ","every","migrate","regenerate","update the","review","pack","compare","judge")
+def pick_model(text):
+    t=text.lower(); heavy = len(text) > 80 or "[photo" in t or any(k in t for k in HEAVY)
+    m = "claude-opus-5" if heavy else "claude-sonnet-5"; log("model", m); return m
 def ask(text):
     now = datetime.datetime.now().strftime("%a %d %b %H:%M")
     prompt = (f"Telegram message from Pavlos, {now} Europe/London. Reply in plain text, no markdown, under 3500 characters. "
@@ -53,7 +57,7 @@ def ask(text):
               "If he names a day type or asks what to wear, answer from wiki/04-looks.md first. If he says picked N or worn, log it in wiki/03-state.md. If it is a catalogue fact or a photo, apply 02a-schema provenance rules and edit data/02-wardrobe.csv. Always: one log line, git commit. "
               f"Message: {text}")
     sid = rf(SESSION_F)
-    base = ["claude", "-p", prompt, "--allowedTools", ALLOW, "--disallowedTools", DENY, "--permission-mode", "acceptEdits", "--output-format", "json"]
+    base = ["claude", "-p", prompt, "--allowedTools", ALLOW, "--disallowedTools", DENY, "--permission-mode", "acceptEdits", "--max-turns", "25", "--output-format", "json", "--model", pick_model(text)]
     if sid:
         r = subprocess.run(base + ["--resume", sid], cwd=VAULT, env=ENV, capture_output=True, text=True, timeout=600)
         if r.returncode == 0: return _tel(r, "chat")
