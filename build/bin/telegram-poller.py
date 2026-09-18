@@ -76,6 +76,18 @@ while True:
     for u in upd.get("result", []):
         offset = u["update_id"] + 1; open(OFFSET_F, "w").write(str(offset))
         m = u.get("message") or {}; text = m.get("text", "")
+        if m.get("voice") or m.get("audio"):
+            try:
+                f = m.get("voice") or m.get("audio")
+                info = api("getFile", file_id=f["file_id"])["result"]["file_path"]
+                ext = os.path.splitext(info)[1] or ".oga"; vdir = f"{VAULT}/data/voice"; os.makedirs(vdir, exist_ok=True)
+                dest = f"{vdir}/{datetime.datetime.now():%Y-%m-%d-%H%M%S}{ext}"
+                urllib.request.urlretrieve(f"https://api.telegram.org/file/bot{TOKEN}/{info}", dest)
+                tr = subprocess.run(["python3", "/home/pavlos/pavos/build/bin/transcribe.py", dest], capture_output=True, text=True, timeout=180).stdout.strip()
+                log("voice", tr)
+                text = f"[Voice note, machine-transcribed — names and numbers may be wrong, confirm anything that matters] {tr}" if tr else "[A voice note arrived but could not be transcribed.]"
+            except Exception as e:
+                log("voice-error", str(e)); text = "[A voice note arrived but could not be transcribed.]"
         if m.get("photo") or m.get("document"):
             try:
                 f = (m.get("photo") or [None])[-1] or m.get("document")
