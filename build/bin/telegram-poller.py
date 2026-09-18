@@ -42,6 +42,8 @@ def _tel(r, label):
         with open(p,"a") as o:
             if new: o.write("time,label,model,duration_ms,input_tokens,output_tokens,cache_read,cache_create,cost_usd,turns,status\n")
             o.write(",".join(str(x).replace(",",";") for x in [datetime.datetime.now().strftime("%F %T"),label,model,d.get("duration_ms",""),u.get("input_tokens",""),u.get("output_tokens",""),u.get("cache_read_input_tokens",""),u.get("cache_creation_input_tokens",""),d.get("total_cost_usd","") or "",d.get("num_turns",""),"error" if d.get("is_error") else "ok"])+"\n")
+        ctx=(u.get("cache_read_input_tokens",0) or 0)+(u.get("cache_creation_input_tokens",0) or 0)+(u.get("input_tokens",0) or 0)
+        if ctx>400000 and os.path.exists(SESSION_F): os.remove(SESSION_F); log("context reset", f"{ctx} tokens")
         return d.get("result","") or ""
     except Exception: return r.stdout
 def ask(text):
