@@ -38,7 +38,7 @@ def with_lock(fn):
 def _tel(r, label):
     try:
         d=json.loads(r.stdout); u=d.get("usage",{}) or {}; mu=d.get("modelUsage",{}) or {}
-        model=next(iter(mu)) if mu else d.get("model","?"); p="/home/pavlos/pavos-style/build/logs/telemetry.csv"; new=not os.path.exists(p)
+        model=(max(mu, key=lambda k:(mu[k] or {}).get("costUSD",0)) if mu else d.get("model","?")); p="/home/pavlos/pavos-style/build/logs/telemetry.csv"; new=not os.path.exists(p)
         with open(p,"a") as o:
             if new: o.write("time,label,model,duration_ms,input_tokens,output_tokens,cache_read,cache_create,cost_usd,turns,status\n")
             o.write(",".join(str(x).replace(",",";") for x in [datetime.datetime.now().strftime("%F %T"),label,model,d.get("duration_ms",""),u.get("input_tokens",""),u.get("output_tokens",""),u.get("cache_read_input_tokens",""),u.get("cache_creation_input_tokens",""),d.get("total_cost_usd","") or "",d.get("num_turns",""),"error" if d.get("is_error") else "ok"])+"\n")
@@ -49,7 +49,7 @@ def _tel(r, label):
 HEAVY=("rebuild","audit","all ","every","migrate","regenerate","update the","review","pack","compare","judge")
 def pick_model(text):
     t=text.lower(); heavy = len(text) > 80 or "[photo" in t or any(k in t for k in HEAVY)
-    m = "claude-opus-5" if heavy else "claude-sonnet-5"; log("model", m); return m
+    m = "claude-opus-5"; log("model", m); return m
 def ask(text):
     now = datetime.datetime.now().strftime("%a %d %b %H:%M")
     prompt = (f"Telegram message from Pavlos, {now} Europe/London. Reply in plain text, no markdown, under 3500 characters. "
